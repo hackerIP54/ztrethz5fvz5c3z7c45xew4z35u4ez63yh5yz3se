@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>FRITZ!Box STATUS.IO REAL</title>
+
+<style>
+body{
+margin:0;
+background:#0b0f19;
+color:white;
+font-family:Arial;
+}
+header{
+padding:18px;
+text-align:center;
+background:#11162a;
+}
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+.card{
+background:#1b1f2e;
+padding:15px;
+border-radius:12px;
+margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>FRITZ!Box REAL STATUS.IO</header>
+
+<div class="container">
+
+<div class="card">
+Ping: <span id="ping">-</span>
+</div>
+
+<div class="card">
+Internet XML:<br>
+<pre id="inet"></pre>
+</div>
+
+<div class="card">
+DSL XML:<br>
+<pre id="dsl"></pre>
+</div>
+
+</div>
+
+<script>
+async function load(){
+let r = await fetch("api.php");
+let d = await r.json();
+
+if(d.error){
+document.body.innerHTML="NO SID / LOGIN FAILED";
+return;
+}
+
+document.getElementById("ping").innerText=d.ping;
+document.getElementById("inet").innerText=d.internet_xml;
+document.getElementById("dsl").innerText=d.dsl_xml;
+}
+
+setInterval(load,3000);
+load();
+</script>
+
+</body>
+</html>
